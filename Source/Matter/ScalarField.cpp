@@ -62,14 +62,17 @@ emtensor_t ScalarField::compute_emtensor(const IntVect a_iv,
     Real Pi_0 = a_multigrid_vars_box(a_iv, c_Pi_0);
     Real phi_0 = a_multigrid_vars_box(a_iv, c_phi_0);
     Real K_0 = a_multigrid_vars_box(a_iv, c_K_0);
-    Tensor<2, Real, SpaceDim> h;
-    FOR2(i, j){h[i][j] = a_multigrid_vars_box(a_iv, c_h + index_ij(i, j));}
-    Tensor<2, Real, SpaceDim> h_UU = compute_inverse(h);
-    Tensor<2, Tensor<1, Real, SpaceDim>, SpaceDim> d1_h;
-    derivs.get_d1(d1_h, a_iv, a_multigrid_vars_box, c_h);
-    auto chris = compute_christoffel(d1_h, h_UU);
-    Real chi = pow(psi_0, -4.0);
     
+    Real chi = pow(psi_0, -4.0);
+    Tensor<2, Real, SpaceDim> Aij_bh;
+    psi_and_Aij_functions->compute_bowenyork_Aij(Aij_bh, loc);
+
+    Tensor<2, Real, SpaceDim> Aij_ctt;
+    psi_and_Aij_functions->compute_ctt_Aij(Aij_ctt, a_multigrid_vars_box, 
+                                            a_iv, a_dx, loc);
+
+    Tensor<2, Real, SpaceDim> A_ij;
+    FOR2(i, j) { A_ij[i][j] = Aij_bh[i][j] + Aij_ctt[i][j]; }
     Tensor<1, Real, SpaceDim> d1_phi;
     derivs.get_d1(d1_phi, a_iv, a_multigrid_vars_box, c_phi_0);
     Real d1_phi_squared = 0;
@@ -91,26 +94,42 @@ emtensor_t ScalarField::compute_emtensor(const IntVect a_iv,
     Tensor<2, Real, SpaceDim> tau_ij;
     FOR2(i, j)
     {tau_ij[i][j] =
-             K_0 * Pi_0 * delta[i][j] / 3. +
-            0.5 * (delta[i][j] * dphi_dot_dchi + d1_phi[i] * d1_chi[j] +
+             A_ij[i][j] * Pi_0 +K_0 * Pi_0 * delta(i,j) / 3. +
+            0.5 * (-delta(i,j) * dphi_dot_dchi + d1_phi[i] * d1_chi[j] +
                    d1_phi[j] * d1_chi[i] +
                    chi * (covd2phi[i][j] + covd2phi[j][i]));
     }
-    Real tau= compute_trace(quantities.tau_ij, h_UU)
-    Tensor<2, Real, SpaceDim> tau_i;
-    For2(i,j)
-    {tau_i[i]=K_0*d1_phi[i] / 3. + d1_Pi[i]+d1_phi[j]*tau_ij[i][j]}
+    Real tau=0.;
+    FOR1(i) { tau += chi * tau_ij[i][i]; }
+    Tensor<1, Real, SpaceDim> d1_Pi;
+    derivs.get_d1(d1_Pi, a_iv, a_multigrid_vars_box, c_Pi_0);
+    Tensor<1, Real, SpaceDim> tau_i;
+    FOR1(i)
+    {
+        tau_i[i] = K_0 * d1_phi[i] / 3. + d1_Pi[i];
+    }
+    FOR2(i, j)
+    {
+        tau_i[i] += A_ij[i][j] * d1_phi[j];
+    }
     Real tau_i_dot_dphi = 0.;
-    FOR(i, j)
+    FOR2(i, j)
     {
         tau_i_dot_dphi +=
-            delta[i][j] * d1_phi[i] * tau_i[j];
+            chi * delta(i,j) * d1_phi[i] * tau_i[j];
+    }
+    Tensor<1, Real, SpaceDim> tau_ij_dot_dphi;
+    For1(i){tau_ij_dot_dphi[i] = 0.;}
+    FOR3(i,j,k)
+    {
+      tau_ij_dot_dphi[i]+=
+        chi * delta(j,k) * d1_phi[k] * tau_ij[i][j];
     }
     Real tau_ij_dot_dphi2 = 0.;
-    FOR(i, j)
+    FOR2(i, j)
     {
         tau_ij_dot_dphi2 +=
-            delta[i][j] * d1.phi[i] * tau_ij_dot_dphi[j];
+            chi * delta(i,j) * d1_phi[i] * tau_ij_dot_dphi[j];
     }
     CouplingAndPotential coupling_and_potential(m_p.coupling_and_potential_params);
     Real V        = coupling_and_potential.V(phi_0, X);
