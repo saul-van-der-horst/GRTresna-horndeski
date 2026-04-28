@@ -1,11 +1,8 @@
 #ifndef COUPLINGANDPOTENTIAL_HPP_
 #define COUPLINGANDPOTENTIAL_HPP_
 
-#include <string>
-#include <stdexcept>
-#include <memory>
 
-
+template <class Derived>
 class CouplingAndPotential
 {
   public:
@@ -18,127 +15,226 @@ class CouplingAndPotential
     params_t m_params;
 
     CouplingAndPotential(params_t a_params) : m_params(a_params) {}
-    virtual ~CouplingAndPotential() = default;
+
+
+    template <class data_t>
+    ALWAYS_INLINE data_t V(const data_t phi, const data_t X) const
+    { return static_cast<const Derived*>(this)->V_impl(phi, X); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dV_dphi(const data_t phi, const data_t X) const
+    { return static_cast<const Derived*>(this)->dV_dphi_impl(phi, X); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t G2(const data_t phi, const data_t X) const
+    { return static_cast<const Derived*>(this)->G2_impl(phi, X); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dphi(const data_t phi, const data_t X) const
+    { return static_cast<const Derived*>(this)->dG2_dphi_impl(phi, X); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dX(const data_t phi, const data_t X) const
+    { return static_cast<const Derived*>(this)->dG2_dX_impl(phi, X); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t d2G2_dXX(const data_t phi, const data_t X) const
+    { return static_cast<const Derived*>(this)->d2G2_dXX_impl(phi, X); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t d2G2_dXphi(const data_t phi, const data_t X) const
+    { return static_cast<const Derived*>(this)->d2G2_dXphi_impl(phi, X); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t G3(const data_t phi, const data_t X) const
+    { return static_cast<const Derived*>(this)->G3_impl(phi, X); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG3_dphi(const data_t phi, const data_t X) const
+    { return static_cast<const Derived*>(this)->dG3_dphi_impl(phi, X); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG3_dX(const data_t phi, const data_t X) const
+    { return static_cast<const Derived*>(this)->dG3_dX_impl(phi, X); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t d2G3_dXX(const data_t phi, const data_t X) const
+    { return static_cast<const Derived*>(this)->d2G3_dXX_impl(phi, X); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t d2G3_dXphi(const data_t phi, const data_t X) const
+    { return static_cast<const Derived*>(this)->d2G3_dXphi_impl(phi, X); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t d2G3_dphiphi(const data_t phi, const data_t X) const
+    { return static_cast<const Derived*>(this)->d2G3_dphiphi_impl(phi, X); }
 
   protected:
-    virtual double V_impl           (double phi, double X) const { return 0.; }
-    virtual double dV_dphi_impl     (double phi, double X) const { return 0.; }
-    virtual double G2_impl          (double phi, double X) const { return 0.; }
-    virtual double dG2_dphi_impl    (double phi, double X) const { return 0.; }
-    virtual double dG2_dX_impl      (double phi, double X) const { return 0.; }
-    virtual double d2G2_dXX_impl    (double phi, double X) const { return 0.; }
-    virtual double d2G2_dXphi_impl  (double phi, double X) const { return 0.; }
-    virtual double G3_impl          (double phi, double X) const { return 0.; }
-    virtual double dG3_dphi_impl    (double phi, double X) const { return 0.; }
-    virtual double dG3_dX_impl      (double phi, double X) const { return 0.; }
-    virtual double d2G3_dXX_impl    (double phi, double X) const { return 0.; }
-    virtual double d2G3_dXphi_impl  (double phi, double X) const { return 0.; }
-    virtual double d2G3_dphiphi_impl(double phi, double X) const { return 0.; }
+   
+    template <class data_t>
+    ALWAYS_INLINE data_t V_impl(const data_t phi, const data_t X) const
+    { return static_cast<data_t>(0); }
 
-  public:
     template <class data_t>
-    ALWAYS_INLINE data_t V           (const data_t phi, const data_t X) const { return V_impl(phi, X); }
+    ALWAYS_INLINE data_t dV_dphi_impl(const data_t phi, const data_t X) const
+    { return static_cast<data_t>(0); }
+
     template <class data_t>
-    ALWAYS_INLINE data_t dV_dphi     (const data_t phi, const data_t X) const { return dV_dphi_impl(phi, X); }
+    ALWAYS_INLINE data_t G2_impl(const data_t phi, const data_t X) const
+    { return static_cast<data_t>(0); }
+
     template <class data_t>
-    ALWAYS_INLINE data_t G2          (const data_t phi, const data_t X) const { return G2_impl(phi, X); }
+    ALWAYS_INLINE data_t dG2_dphi_impl(const data_t phi, const data_t X) const
+    { return static_cast<data_t>(0); }
+
     template <class data_t>
-    ALWAYS_INLINE data_t dG2_dphi    (const data_t phi, const data_t X) const { return dG2_dphi_impl(phi, X); }
+    ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
+    { return static_cast<data_t>(0); }
+
     template <class data_t>
-    ALWAYS_INLINE data_t dG2_dX      (const data_t phi, const data_t X) const { return dG2_dX_impl(phi, X); }
+    ALWAYS_INLINE data_t d2G2_dXX_impl(const data_t phi, const data_t X) const
+    { return static_cast<data_t>(0); }
+
     template <class data_t>
-    ALWAYS_INLINE data_t d2G2_dXX    (const data_t phi, const data_t X) const { return d2G2_dXX_impl(phi, X); }
+    ALWAYS_INLINE data_t d2G2_dXphi_impl(const data_t phi, const data_t X) const
+    { return static_cast<data_t>(0); }
+
     template <class data_t>
-    ALWAYS_INLINE data_t d2G2_dXphi  (const data_t phi, const data_t X) const { return d2G2_dXphi_impl(phi, X); }
+    ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
+    { return static_cast<data_t>(0); }
+
     template <class data_t>
-    ALWAYS_INLINE data_t G3          (const data_t phi, const data_t X) const { return G3_impl(phi, X); }
+    ALWAYS_INLINE data_t dG3_dphi_impl(const data_t phi, const data_t X) const
+    { return static_cast<data_t>(0); }
+
     template <class data_t>
-    ALWAYS_INLINE data_t dG3_dphi    (const data_t phi, const data_t X) const { return dG3_dphi_impl(phi, X); }
+    ALWAYS_INLINE data_t dG3_dX_impl(const data_t phi, const data_t X) const
+    { return static_cast<data_t>(0); }
+
     template <class data_t>
-    ALWAYS_INLINE data_t dG3_dX      (const data_t phi, const data_t X) const { return dG3_dX_impl(phi, X); }
+    ALWAYS_INLINE data_t d2G3_dXX_impl(const data_t phi, const data_t X) const
+    { return static_cast<data_t>(0); }
+
     template <class data_t>
-    ALWAYS_INLINE data_t d2G3_dXX    (const data_t phi, const data_t X) const { return d2G3_dXX_impl(phi, X); }
+    ALWAYS_INLINE data_t d2G3_dXphi_impl(const data_t phi, const data_t X) const
+    { return static_cast<data_t>(0); }
+
     template <class data_t>
-    ALWAYS_INLINE data_t d2G3_dXphi  (const data_t phi, const data_t X) const { return d2G3_dXphi_impl(phi, X); }
-    template <class data_t>
-    ALWAYS_INLINE data_t d2G3_dphiphi(const data_t phi, const data_t X) const { return d2G3_dphiphi_impl(phi, X); }
+    ALWAYS_INLINE data_t d2G3_dphiphi_impl(const data_t phi, const data_t X) const
+    { return static_cast<data_t>(0); }
 };
 
 
-class Canonical : public CouplingAndPotential
+template <class Derived>
+class Canonical : public CouplingAndPotential<Derived>
 {
   public:
-    Canonical(params_t p) : CouplingAndPotential(p) {}
+    using params_t = typename CouplingAndPotential<Derived>::params_t;
+    Canonical(params_t p) : CouplingAndPotential<Derived>(p) {}
 };
 
-// -- Canonical leaf classes --
-class CanonicalModel1 : public Canonical
+
+template <class Derived>
+class KEssence : public CouplingAndPotential<Derived>
 {
   public:
-    CanonicalModel1(params_t p) : Canonical(p) {}
+    using params_t = typename CouplingAndPotential<Derived>::params_t;
+    KEssence(params_t p) : CouplingAndPotential<Derived>(p) {}
 };
 
-class CanonicalModel2 : public Canonical
+
+template <class Derived>
+class KGB : public CouplingAndPotential<Derived>
 {
   public:
-    CanonicalModel2(params_t p) : Canonical(p) {}
+    using params_t = typename CouplingAndPotential<Derived>::params_t;
+    KGB(params_t p) : CouplingAndPotential<Derived>(p) {}
 };
 
 
-class KEssence : public CouplingAndPotential
+class KGBDefault : public KGB<KGBDefault>
 {
   public:
-    KEssence(params_t p) : CouplingAndPotential(p) {}
+    using params_t = typename KGB<KGBDefault>::params_t;
+    KGBDefault(params_t p) : KGB<KGBDefault>(p) {}
+
+    template <class data_t>
+    ALWAYS_INLINE data_t G2_impl(const data_t phi, const data_t X) const
+    {
+        return this->m_params.g2 * X * X
+             - 0.5 * this->m_params.scalar_mass * this->m_params.scalar_mass * phi * phi;
+    }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dphi_impl(const data_t phi, const data_t X) const
+    { return -this->m_params.scalar_mass * this->m_params.scalar_mass * phi; }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
+    { return 2. * this->m_params.g2 * X; }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t d2G2_dXX_impl(const data_t phi, const data_t X) const
+    { return 2. * this->m_params.g2; }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
+    { return this->m_params.g3 * X; }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG3_dX_impl(const data_t phi, const data_t X) const
+    { return this->m_params.g3; }
 };
 
 
-class KEssenceModel1 : public KEssence
+struct ICouplingAndPotential
 {
-  public:
-    KEssenceModel1(params_t p) : KEssence(p) {}
+    virtual ~ICouplingAndPotential() = default;
+
+    virtual double V            (double phi, double X) const = 0;
+    virtual double dV_dphi      (double phi, double X) const = 0;
+    virtual double G2           (double phi, double X) const = 0;
+    virtual double dG2_dphi     (double phi, double X) const = 0;
+    virtual double dG2_dX       (double phi, double X) const = 0;
+    virtual double d2G2_dXX     (double phi, double X) const = 0;
+    virtual double d2G2_dXphi   (double phi, double X) const = 0;
+    virtual double G3           (double phi, double X) const = 0;
+    virtual double dG3_dphi     (double phi, double X) const = 0;
+    virtual double dG3_dX       (double phi, double X) const = 0;
+    virtual double d2G3_dXX     (double phi, double X) const = 0;
+    virtual double d2G3_dXphi   (double phi, double X) const = 0;
+    virtual double d2G3_dphiphi (double phi, double X) const = 0;
 };
 
-class KEssenceModel2 : public KEssence
+template <class Model>
+struct ModelWrapper : public ICouplingAndPotential
 {
-  public:
-    KEssenceModel2(params_t p) : KEssence(p) {}
+    Model m_model;
+    ModelWrapper(typename Model::params_t p) : m_model(p) {}
+
+    double V            (double phi, double X) const override { return m_model.V(phi, X); }
+    double dV_dphi      (double phi, double X) const override { return m_model.dV_dphi(phi, X); }
+    double G2           (double phi, double X) const override { return m_model.G2(phi, X); }
+    double dG2_dphi     (double phi, double X) const override { return m_model.dG2_dphi(phi, X); }
+    double dG2_dX       (double phi, double X) const override { return m_model.dG2_dX(phi, X); }
+    double d2G2_dXX     (double phi, double X) const override { return m_model.d2G2_dXX(phi, X); }
+    double d2G2_dXphi   (double phi, double X) const override { return m_model.d2G2_dXphi(phi, X); }
+    double G3           (double phi, double X) const override { return m_model.G3(phi, X); }
+    double dG3_dphi     (double phi, double X) const override { return m_model.dG3_dphi(phi, X); }
+    double dG3_dX       (double phi, double X) const override { return m_model.dG3_dX(phi, X); }
+    double d2G3_dXX     (double phi, double X) const override { return m_model.d2G3_dXX(phi, X); }
+    double d2G3_dXphi   (double phi, double X) const override { return m_model.d2G3_dXphi(phi, X); }
+    double d2G3_dphiphi (double phi, double X) const override { return m_model.d2G3_dphiphi(phi, X); }
 };
 
-
-class KGB : public CouplingAndPotential
-{
-  public:
-    KGB(params_t p) : CouplingAndPotential(p) {}
-};
-
-// -- KGB leaf classes --
-class KGBModel1 : public KGB
-{
-  public:
-    KGBModel1(params_t p) : KGB(p) {}
-};
-
-class KGBModel2 : public KGB
-{
-  public:
-    KGBModel2(params_t p) : KGB(p) {}
-};
-
-
-inline std::unique_ptr<CouplingAndPotential>
+inline std::unique_ptr<ICouplingAndPotential>
 makeCouplingAndPotential(const std::string &model_name,
-                         CouplingAndPotential::params_t params)
+                         CouplingAndPotential<KGBDefault>::params_t params)
 {
-    if      (model_name == "canonical-1")  return std::make_unique<CanonicalModel1>(params);
-    else if (model_name == "canonical-2")  return std::make_unique<CanonicalModel2>(params);
-    else if (model_name == "k-essence-1")  return std::make_unique<KEssenceModel1>(params);
-    else if (model_name == "k-essence-2")  return std::make_unique<KEssenceModel2>(params);
-    else if (model_name == "kgb-1")        return std::make_unique<KGBModel1>(params);
-    else if (model_name == "kgb-2")        return std::make_unique<KGBModel2>(params);
+    if (model_name == "kgb-default")
+        return std::make_unique<ModelWrapper<KGBDefault>>(params);
     else
-        throw std::invalid_argument("Unknown model: '" + model_name +
-                                    "'. Options: canonical-1, canonical-2, "
-                                    "k-essence-1, k-essence-2, kgb-1, kgb-2");
+        throw std::invalid_argument("Unknown model: '" + model_name + "'");
 }
 
 #endif /* COUPLINGANDPOTENTIAL_HPP_ */
