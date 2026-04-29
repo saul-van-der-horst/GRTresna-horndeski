@@ -11,6 +11,20 @@ class CouplingAndPotential
         mutable double scalar_mass = 0.0;
         double g2 = 0.0;
         double g3 = 0.0;
+        double y1 = 0.0;
+        double y2 = 0.0;
+        double v0 = 0.0;
+        double Lambda = 0.0;
+        double beta = 0.0;
+        double f = 0.0;
+        double mu = 0.0;
+        double p = 0.0;
+        double Mpl = 0.0;
+        double alpha = 0.0;
+        double lambda = 0.0;
+        double v = 0.0;
+        double b = 0.0;
+        double gamma = 0.0;
     };
     params_t m_params;
 
@@ -152,6 +166,121 @@ class KGB : public CouplingAndPotential<Derived>
 };
 
 
+class KGBCubic_galileon : public KGB<KGBcubic_galileon>
+{
+  public:
+    using params_t = typename KGB<KGBCubic_galileon>::params_t;
+    KGBCubic_galileon(params_t p) : KGB<KGBCubic_galileon>(p) {}
+
+    template <class data_t>
+    ALWAYS_INLINE data_t G2_impl(const data_t phi, const data_t X) const
+    {
+        return -X + pow(X, 2)/(2 * pow(this->m_params.scalar_mass, 3) * this->m_params.mu);
+    }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
+    { return -1+ X/(pow(this->m_params.scalar_mass, 3) * this->m_params.mu); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t d2G2_dXX_impl(const data_t phi, const data_t X) const
+    { return 1/(pow(this->m_params.scalar_mass, 3) * this->m_params.mu); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
+    { return X/(pow(this->m_params.scalar_mass, 3)) ; }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG3_dX_impl(const data_t phi, const data_t X) const
+    { return 1/(pow(this->m_params.scalar_mass, 3)) }
+};
+class KGBUltra_slow_roll : public KGB<KGBUltra_slow_roll>
+{
+  public:
+    using params_t = typename KGB<KGBUltra_slow_roll>::params_t;
+    KGBUltra_slow_roll(params_t p) : KGB<KGBUltra_slow_roll>(p) {}
+
+    template <class data_t>
+    ALWAYS_INLINE data_t G2_impl(const data_t phi, const data_t X) const
+    {
+        return -this-> m_params.v0 + this-> m_params.y2 * phi;
+    }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dphi_impl(const data_t phi, const data_t X) const
+    { return this->m_params.y2; }
+
+   
+
+    template <class data_t>
+    ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
+    { return this->m_params.y1 * X; }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG3_dX_impl(const data_t phi, const data_t X) const
+    { return this->m_params.y1; }
+};
+class KGBRunning_braiding_starobinsky : public KGB<KGBRunning_braiding_starobinsky>
+{
+  public:
+    using params_t = typename KGB<KGBRunning_braiding_starobinsky>::params_t;
+    KGBRunning_braiding_starobinsky(params_t p) : KGB<KGBRunning_braiding_starobinsky>(p) {}
+
+    template <class data_t>
+    ALWAYS_INLINE data_t G2_impl(const data_t phi, const data_t X) const
+    {
+        return -pow(this->m_params.Lambda, 4)(1-exp(- this->m_params.alpha * phi /this->m_params.Mpl) ;
+    }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dphi_impl(const data_t phi, const data_t X) const
+    { return -pow(this->m_params.Lambda, 4)(1+(this->m_params.alpha / this->m_params.Mpl)exp(- this->m_params.alpha * phi /this->m_params.Mpl); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
+    { return this->m_params.g3 * pow(X, 2); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG3_dX_impl(const data_t phi, const data_t X) const
+    { return 2. * this->m_params.g3 * X; }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t d2G3_dXX_impl(const data_t phi, const data_t X) const
+    { return 2. * this->m_params.g3; }
+};
+
+class KGBExponential_hilltop : public KGB<KGBExponential_hilltop>
+{
+  public:
+    using params_t = typename KGB<KGBExponential_hilltop>::params_t;
+    KGBExponential_hilltop(params_t p) : KGB<KGB>(p) {}
+
+    template <class data_t>
+    ALWAYS_INLINE data_t G2_impl(const data_t phi, const data_t X) const
+    {
+        return  pow((pow(phi, 2)-pow(this-.m_params.v, 2)), 2) * this->m_params.lambda / 4. ;
+    }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dphi_impl(const data_t phi, const data_t X) const
+    { return this->m.params_lambda * phi * (pow(phi, 2)-pow(this->m_params.v, 2)); }
+
+    
+
+    
+
+    template <class data_t>
+    ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
+    { return this->m_params.y1 * exp(this->m_params.beta * X); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG3_dX_impl(const data_t phi, const data_t X) const
+    { return this->m_params.y1 * this->m_params.beta* exp(this->m_params.beta * X); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t d2G3_dXX_impl(const data_t phi, const data_t X) const
+    { return this->m_params.y1 * pow(this->m_params.beta, 2)* exp(this->m_params.beta * X); }
+};
 class KGBDefault : public KGB<KGBDefault>
 {
   public:
@@ -185,7 +314,61 @@ class KGBDefault : public KGB<KGBDefault>
     ALWAYS_INLINE data_t dG3_dX_impl(const data_t phi, const data_t X) const
     { return this->m_params.g3; }
 };
+class KGBDBI_natural : public KGB<KGBDBI_natural>
+{
+  public:
+    using params_t = typename KGB<KGBDBI_natural>::params_t;
+    KGBDBI_natural(params_t p) : KGB<KGBDBI_natural>(p) {}
 
+    template <class data_t>
+    ALWAYS_INLINE data_t G2_impl(const data_t phi, const data_t X) const
+    {
+        return -sqrt(1. - 2. * X) *pow(phi, 4)/this->m_params.lambda +pow(phi, 4)/this->m_params.lambda + pow(this->m_params.Lambda, 4)(1. +cos(phi/this->m_params.f));
+    }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dphi_impl(const data_t phi, const data_t X) const
+    { return -sqrt(1. - 2. * X) * 4. * pow(phi, 3)/this->m_params.lambda +4. * pow(phi, 3)/this->m_params.lambda -pow(this->m_params.Lambda, 4)(sin(phi/this->m_params.f); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
+    { return pow(phi, 4)/(this->m_params.lambda * sqrt(1. - 2. * X) ); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t d2G2_dXX_impl(const data_t phi, const data_t X) const
+    { return pow(phi, 4)/(this->m_params.lambda * sqrt(1. - 2. * X) * (1. - 2. * X)); }
+
+};
+
+class KGBDBI_power_law : public KGB<KGBDBI_power_law>
+{
+  public:
+    using params_t = typename KGB<KGBDBI_Power_Law>::params_t;
+    KGBDBI_power_law(params_t p) : KGB<KGBDBI_power_law>(p) {}
+
+    template <class data_t>
+    ALWAYS_INLINE data_t G2_impl(const data_t phi, const data_t X) const
+    {
+        return -sqrt(1. - 2. * X) * this->m_params.v0 * exp(2 *this->m_params.b *phi /this->m_params.Mpl) 
+          /(this->m_params.gamma -1)((3 * this->m_params.gamma +1) / (4 * pow(b, 2)) -1) +this->m_params.v0 * exp(2 *this->m_params.b *phi /this->m_params.Mpl) 
+          /(this->m_params.gamma -1)((3 * this->m_params.gamma +1) / (4 * pow(b, 2)) -1)-exp(2 *this->m_params.b *phi /this->m_params.Mpl);
+    }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dphi_impl(const data_t phi, const data_t X) const
+    { return -sqrt(1. - 2. * X) * this->m_params.v0 * exp(2 *this->m_params.b *phi /this->m_params.Mpl) 
+          /(this->m_params.gamma -1)((3 * this->m_params.gamma +1) / (4 * pow(b, 2)) -1)  +this->m_params.v0 * exp(2 *this->m_params.b *phi /this->m_params.Mpl) 
+          /(this->m_params.gamma -1)((3 * this->m_params.gamma +1) / (4 * pow(b, 2)) -1)  - 2 * this->m_params.b *exp(2 *this->m_params.b * phi /this->m_params.Mpl)/this->m_params.Mpl ; }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
+    { return pow(phi, 4)/(this->m_params.lambda * sqrt(1. - 2. * X) ); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t d2G2_dXX_impl(const data_t phi, const data_t X) const
+    { return pow(phi, 4)/(this->m_params.lambda * sqrt(1. - 2. * X) * (1. - 2. * X); }
+
+};
 
 struct ICouplingAndPotential
 {
@@ -233,6 +416,18 @@ makeCouplingAndPotential(const std::string &model_name,
 {
     if (model_name == "kgb-default")
         return std::make_unique<ModelWrapper<KGBDefault>>(params);
+    else if (model_name == "kgb-usr")
+        return std::make_unique<ModelWrapper<KGBUltra_slow_roll>>(params);
+    else if (model_name == "kgb-ga3")
+        return std::make_unique<ModelWrapper<KGBCubic_galileon>>(params);
+    else if (model_name == "kgb-rbs")
+        return std::make_unique<ModelWrapper<KGBRunning_braiding_starobinsky>>(params);
+    else if (model_name == "kgb-exph")
+        return std::make_unique<ModelWrapper<KGBExponential_hilltop>>(params);
+    else if (model_name == "kgb-dbin")
+        return std::make_unique<ModelWrapper<KGBDBI_natural>>(params);
+    else if (model_name == "kgb-dbipl")
+        return std::make_unique<ModelWrapper<KGBDBI_power_law>>(params);
     else
         throw std::invalid_argument("Unknown model: '" + model_name + "'");
 }
