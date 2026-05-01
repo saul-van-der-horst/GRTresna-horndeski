@@ -4,6 +4,7 @@
  */
 
 #include "ScalarField.hpp"
+#include "CouplingAndPotential.hpp"
 
 Real ScalarField::my_potential_function(const Real &phi_here) const
 {
