@@ -28,7 +28,7 @@ struct params_t
     Real Mpl;
     Real usr_v0;
     Real usr_y1;
-    Real usr_y2;
+    Real y2;
     Real ga3_scalar_mass;
     Real mu;
     Real exph_lambda;
