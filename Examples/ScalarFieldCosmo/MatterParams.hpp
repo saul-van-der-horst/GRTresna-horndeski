@@ -40,7 +40,6 @@ struct params_t
     Real f;
     Real v0;
     Real b;
-    Real Mpl;
     Real gamma;
     std::unique_ptr<ICouplingAndPotential> coupling;
 };
