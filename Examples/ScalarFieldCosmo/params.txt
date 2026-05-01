@@ -86,7 +86,7 @@ lo_boundary = 0 0 0
 
 # Q: "Simple, change the gravitational constant of the Universe"
 G_Newton = 1.0 
-
+Mpl = 1.0
 # Scalar field input params read in MatterParams.hpp
 # and used in MatterFunctions.hpp
 phi_0 = 1e-1
@@ -94,6 +94,25 @@ dphi = 1e-1
 pi_0 = 1e-1
 dpi = 1e-1
 scalar_mass = 1e-1
+g2 =
+g3 =
+rbs_g3 =
+rbs_Lambda =
+nu =
+usr_v0 =
+usr_y1 =
+y2 =
+ga3_scalar_mass =1e-1
+mu = 
+exph_lambda =
+v =
+eta =
+dbin_lambda1 =
+dbin_Lambda =
+f =
+v0 =
+b =
+gamma =
 
 # Conformal factor psi
 # Related to cosmo scale factor a = psi^2
