@@ -46,93 +46,99 @@ struct params_t
 
 inline void read_params(GRParmParse &pp, params_t &matter_params)
 {
+    // Always required
     pp.get("phi_0", matter_params.phi_0);
-    pp.get("dphi", matter_params.dphi);
-    pp.get("pi_0", matter_params.pi_0);
-    pp.get("dpi", matter_params.dpi);
-    pp.get("Mpl",    matter_params.Mpl);
+    pp.get("dphi",  matter_params.dphi);
+    pp.get("pi_0",  matter_params.pi_0);
+    pp.get("dpi",   matter_params.dpi);
     pp.get("model_name", matter_params.model_name);
-    pp.get("scalar_mass", matter_params.scalar_mass);
-    pp.get("g2", matter_params.g2);
-    pp.get("g3", matter_params.g3);
-    pp.get("rbs_g3",     matter_params.rbs_g3);
-    pp.get("rbs_Lambda", matter_params.rbs_Lambda);
-    pp.get("eta",  matter_params.eta);
-    pp.get("usr_v0", matter_params.usr_v0);
-    pp.get("usr_y1", matter_params.usr_y1);
-    pp.get("y2", matter_params.y2);
-    pp.get("mu", matter_params.mu);
-    pp.get("exph_lambda", matter_params.exph_lambda);
-    pp.get("v",      matter_params.v);
-    pp.get("y1",     matter_params.y1);
-    pp.get("eta",   matter_params.eta);
-   
-    pp.get("dbin_lambda1", matter_params.dbin_lambda1);
-    pp.get("dbin_Lambda", matter_params.dbin_Lambda);
-    pp.get("f",      matter_params.f);
-    
-    pp.get("v0",    matter_params.v0);
-    pp.get("b",     matter_params.b);
-    pp.get("gamma", matter_params.gamma);
-
-    // Build m_params for the chosen model then create coupling object
-    CouplingAndPotential<KGBDefault>::params_t m_params;
 
     if (matter_params.model_name == "kgb-default")
     {
-        m_params.scalar_mass = matter_params.scalar_mass;
-        m_params.g2          = matter_params.g2;
-        m_params.g3          = matter_params.g3;
+        CouplingAndPotential<KGBDefault>::params_t m_params;
+
+        pp.get("scalar_mass", m_params.scalar_mass);
+        pp.get("g2",          m_params.g2);
+        pp.get("g3",          m_params.g3);
+
+        matter_params.coupling =
+            makeCouplingAndPotential("kgb-default", m_params);
     }
     else if (matter_params.model_name == "kgb-rbs")
     {
-        m_params.g3     = matter_params.rbs_g3;
-        m_params.Lambda = matter_params.rbs_Lambda;
-        m_params.alpha  = matter_params.nu;
-        m_params.Mpl    = matter_params.Mpl;
+        CouplingAndPotential<KGBRunning_braiding_starobinsky>::params_t m_params;
+
+        pp.get("rbs_g3",     m_params.g3);
+        pp.get("rbs_Lambda", m_params.rbs_Lambda);
+        pp.get("nu",  m_params.nu);
+        pp.get("Mpl",    m_params.Mpl);
+
+        matter_params.coupling =
+            makeCouplingAndPotential("kgb-rbs", m_params);
     }
     else if (matter_params.model_name == "kgb-usr")
     {
-        m_params.v0 = matter_params.usr_v0;
-        m_params.y1 = matter_params.usr_y1;
-        m_params.y2 = matter_params.y2;
+        CouplingAndPotential<KGBUltra_slow_roll>::params_t m_params;
+
+        pp.get("usr_v0", m_params.usr_v0);
+        pp.get("usr_y1", m_params.usr_y1);
+        pp.get("y2", m_params.y2);
+
+        matter_params.coupling =
+            makeCouplingAndPotential("kgb-usr", m_params);
     }
     else if (matter_params.model_name == "kgb-ga3")
     {
-        m_params.scalar_mass = matter_params.ga3_scalar_mass;
-        m_params.mu          = matter_params.mu;
+        CouplingAndPotential<KGBCubic_galileon>::params_t m_params;
+
+        pp.get("ga3_scalar_mass", m_params.ga3_scalar_mass);
+        pp.get("mu",          m_params.mu);
+
+        matter_params.coupling =
+            makeCouplingAndPotential("kgb-ga3", m_params);
     }
     else if (matter_params.model_name == "kgb-exph")
     {
-        m_params.lambda = matter_params.exph_lambda;
-        m_params.v      = matter_params.v;
-        m_params.y1     = matter_params.exph_y1;
-        m_params.beta   = matter_params.eta;
+        CouplingAndPotential<KGBExponential_hilltop>::params_t m_params;
+
+        pp.get("exph_lambda", m_params.lambda);
+        pp.get("v",      m_params.v);
+        pp.get("y1",     m_params.y1);
+        pp.get("eta",   m_params.eta);
+
+        matter_params.coupling =
+            makeCouplingAndPotential("kgb-exph", m_params);
     }
     else if (matter_params.model_name == "kgb-dbin")
     {
-        m_params.lambda = matter_params.dbin_lambda1;
-        m_params.Lambda = matter_params.dbin_Lambda;
-        m_params.f      = matter_params.f;
+        CouplingAndPotential<KGBDBI_natural>::params_t m_params;
+
+        pp.get("dbin_lambda1", m_params.dbin_lambda1);
+        pp.get("dbin_Lambda", m_params.dbin_Lambda);
+        pp.get("f",      m_params.f);
+
+        matter_params.coupling =
+            makeCouplingAndPotential("kgb-dbin", m_params);
     }
     else if (matter_params.model_name == "kgb-dbipl")
     {
-        m_params.v0    = matter_params.v0;
-        m_params.b     = matter_params.b;
-        m_params.Mpl   = matter_params.Mpl;
-        m_params.gamma = matter_params.gamma;
+        CouplingAndPotential<KGBDBI_power_law>::params_t m_params;
+
+        pp.get("v0",    m_params.v0);
+        pp.get("b",     m_params.b);
+        pp.get("Mpl",   m_params.Mpl);
+        pp.get("gamma", m_params.gamma);
+
+        matter_params.coupling =
+            makeCouplingAndPotential("kgb-dbipl", m_params);
     }
     else
     {
         throw std::invalid_argument("Unknown model_name: '"
                                     + matter_params.model_name + "'");
     }
+}    
 
-    matter_params.coupling = makeCouplingAndPotential(
-        matter_params.model_name, m_params);
-
-    
-}
 
 }; // namespace MatterParams
 
