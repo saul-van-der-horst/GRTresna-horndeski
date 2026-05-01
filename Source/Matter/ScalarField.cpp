@@ -5,7 +5,7 @@
 
 #include "ScalarField.hpp"
 #include "DerivativeOperators.hpp"
-#include "CouplingandPotenetial.hpp"
+#include "CouplingAndPotenetial.hpp"
 #include "EMTensor.hpp"
 #include "FArrayBox.H"
 #include "GRParmParse.hpp"
@@ -120,7 +120,7 @@ emtensor_t ScalarField::compute_emtensor(const IntVect a_iv,
             chi * delta(i,j) * d1_phi[i] * tau_i[j];
     }
     Tensor<1, Real, SpaceDim> tau_ij_dot_dphi;
-    For1(i){tau_ij_dot_dphi[i] = 0.;}
+    FOR1(i){tau_ij_dot_dphi[i] = 0.;}
     FOR3(i,j,k)
     {
       tau_ij_dot_dphi[i]+=
@@ -132,12 +132,12 @@ emtensor_t ScalarField::compute_emtensor(const IntVect a_iv,
         tau_ij_dot_dphi2 +=
             chi * delta(i,j) * d1_phi[i] * tau_ij_dot_dphi[j];
     }
-    CouplingAndPotential coupling_and_potential(m_p.coupling_and_potential_params);
-    Real V        = coupling_and_potential.V(phi_0, X);
-    Real g2       = coupling_and_potential.G2(phi_0, X);
-    Real dg2_dX   = coupling_and_potential.dG2_dX(phi_0, X);
-    Real dg3_dX   = coupling_and_potential.dG3_dX(phi_0, X);
-    Real dg3_dphi = coupling_and_potential.dG3_dphi(phi_0, X);
+    const ICouplingAndPotential &coupling = *m_matter_params.coupling;
+    Real V        = coupling.V(phi_0, X);
+    Real g2       = coupling.G2(phi_0, X);
+    Real dg2_dX   = coupling.dG2_dX(phi_0, X);
+    Real dg3_dX   = coupling.dG3_dX(phi_0, X);
+    Real dg3_dphi = coupling.dG3_dphi(phi_0, X);
 
     out.rho =
         dg3_dX * (tau * Pi_0 * Pi_0 -
