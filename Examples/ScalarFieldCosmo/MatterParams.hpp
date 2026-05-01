@@ -68,7 +68,7 @@ inline void read_params(GRParmParse &pp, params_t &matter_params)
     {
         CouplingAndPotential<KGBRunning_braiding_starobinsky>::params_t m_params;
 
-        pp.get("rbs_g3",     m_params.g3);
+        pp.get("rbs_g3",     m_params.rbs_g3);
         pp.get("rbs_Lambda", m_params.rbs_Lambda);
         pp.get("nu",  m_params.nu);
         pp.get("Mpl",    m_params.Mpl);
@@ -101,7 +101,7 @@ inline void read_params(GRParmParse &pp, params_t &matter_params)
     {
         CouplingAndPotential<KGBExponential_hilltop>::params_t m_params;
 
-        pp.get("exph_lambda", m_params.lambda);
+        pp.get("exph_lambda", m_params.exph_lambda);
         pp.get("v",      m_params.v);
         pp.get("y1",     m_params.y1);
         pp.get("eta",   m_params.eta);
