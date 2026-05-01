@@ -6,10 +6,46 @@
 #include "ScalarField.hpp"
 #include "CouplingAndPotential.hpp"
 
-Real ScalarField::my_potential_function(const Real &phi_here) const
-{
-    return 0.5 * pow(m_matter_params.scalar_mass * phi_here, 2.0);
-}
+
+
+Real ScalarField::V(const Real phi, const Real X) const
+{ return m_matter_params.coupling->V(phi, X); }
+
+Real ScalarField::dV_dphi(const Real phi, const Real X) const
+{ return m_matter_params.coupling->dV_dphi(phi, X); }
+
+Real ScalarField::G2(const Real phi, const Real X) const
+{ return m_matter_params.coupling->G2(phi, X); }
+
+Real ScalarField::dG2_dphi(const Real phi, const Real X) const
+{ return m_matter_params.coupling->dG2_dphi(phi, X); }
+
+Real ScalarField::dG2_dX(const Real phi, const Real X) const
+{ return m_matter_params.coupling->dG2_dX(phi, X); }
+
+Real ScalarField::d2G2_dXX(const Real phi, const Real X) const
+{ return m_matter_params.coupling->d2G2_dXX(phi, X); }
+
+Real ScalarField::d2G2_dXphi(const Real phi, const Real X) const
+{ return m_matter_params.coupling->d2G2_dXphi(phi, X); }
+
+Real ScalarField::G3(const Real phi, const Real X) const
+{ return m_matter_params.coupling->G3(phi, X); }
+
+Real ScalarField::dG3_dphi(const Real phi, const Real X) const
+{ return m_matter_params.coupling->dG3_dphi(phi, X); }
+
+Real ScalarField::dG3_dX(const Real phi, const Real X) const
+{ return m_matter_params.coupling->dG3_dX(phi, X); }
+
+Real ScalarField::d2G3_dXX(const Real phi, const Real X) const
+{ return m_matter_params.coupling->d2G3_dXX(phi, X); }
+
+Real ScalarField::d2G3_dXphi(const Real phi, const Real X) const
+{ return m_matter_params.coupling->d2G3_dXphi(phi, X); }
+
+Real ScalarField::d2G3_dphiphi(const Real phi, const Real X) const
+{ return m_matter_params.coupling->d2G3_dphiphi(phi, X); }
 
 Real ScalarField::my_phi_function(const RealVect &loc) const
 {
