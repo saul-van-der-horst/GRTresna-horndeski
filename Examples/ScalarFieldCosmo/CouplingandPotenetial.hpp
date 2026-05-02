@@ -286,15 +286,15 @@ class KGBExponential_hilltop : public KGB<KGBExponential_hilltop>
 
     template <class data_t>
     ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
-    { return this->m_params.y1 * exp(this->m_params.q * X /(1. +abs(X)/abs(this->m_params.q))); }
+    { return this->m_params.y1 * exp(this->m_params.q * X /(1. +abs(X) * abs(this->m_params.q))); }
 
     template <class data_t>
     ALWAYS_INLINE data_t dG3_dX_impl(const data_t phi, const data_t X) const
-    { return this->m_params.y1 * this->m_params.q* exp(this->m_params.q * X/(1+abs(X)/abs(this->m_params.q))); }
+    { return this->m_params.y1 * this->m_params.q* exp(this->m_params.q * X/(1+abs(X) * abs(this->m_params.q))); }
 
     template <class data_t>
     ALWAYS_INLINE data_t d2G3_dXX_impl(const data_t phi, const data_t X) const
-    { return this->m_params.y1 * pow(this->m_params.q, 2)* exp(this->m_params.q * X/(1+abs(X)/abs(this->m_params.q))); }
+    { return this->m_params.y1 * pow(this->m_params.q, 2)* exp(this->m_params.q * X/(1+abs(X) * abs(this->m_params.q))); }
 };
 class KGBDefault : public KGB<KGBDefault>
 {
@@ -378,12 +378,12 @@ class KGBDBI_power_law : public KGB<KGBDBI_power_law>
     template <class data_t>
     ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
     { return 1. + this->m_params.v0 * exp(2 *this->m_params.b *phi /this->m_params.Mpl) 
-          /((this->m_params.gamma -1) * ((3 * (this->m_params.gamma +1)) / (4 * (pow(this->m_params.b, 2) -1)))) / sqrt(1. - 2. * X) ; }
+          /((this->m_params.gamma -1) * ((3 * (this->m_params.gamma +1)) / (4 * (pow(this->m_params.b, 2) -1)))) / sqrt(1. - 2. * X + this->m_params.eps * this->m_params.eps) ; }
 
     template <class data_t>
     ALWAYS_INLINE data_t d2G2_dXX_impl(const data_t phi, const data_t X) const
     { return this->m_params.v0 * exp(2 *this->m_params.b *phi /this->m_params.Mpl) 
-          /((this->m_params.gamma -1) * ((3 * (this->m_params.gamma +1)) / (4 * (pow(this->m_params.b, 2) -1)))) /( sqrt(1. - 2. * X) * (1. - 2. * X)); }
+          /((this->m_params.gamma -1) * ((3 * (this->m_params.gamma +1)) / (4 * (pow(this->m_params.b, 2) -1)))) /( sqrt(1. - 2. * X+ this->m_params.eps * this->m_params.eps) * (1. - 2. * X)); }
 
 };
 
