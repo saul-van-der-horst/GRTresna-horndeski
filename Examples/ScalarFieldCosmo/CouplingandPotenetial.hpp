@@ -290,11 +290,11 @@ class KGBExponential_hilltop : public KGB<KGBExponential_hilltop>
 
     template <class data_t>
     ALWAYS_INLINE data_t dG3_dX_impl(const data_t phi, const data_t X) const
-    { return this->m_params.y1 * this->m_params.q* exp(this->m_params.q * X/(1+abs(X) * abs(this->m_params.q))); }
+    { return this->m_params.y1 * this->m_params.q * exp(this->m_params.q * X/(1+abs(X) * abs(this->m_params.q))) / pow(1+ abs(X) * abs(this->m_params.q),2); }
 
     template <class data_t>
     ALWAYS_INLINE data_t d2G3_dXX_impl(const data_t phi, const data_t X) const
-    { return this->m_params.y1 * pow(this->m_params.q, 2)* exp(this->m_params.q * X/(1+abs(X) * abs(this->m_params.q))); }
+    { return -this->m_params.y1 * pow(this->m_params.q, 2.) * (2. * this->m_params.q * X +1 ) * exp(this->m_params.q * X/(1+abs(X) * abs(this->m_params.q)))/ pow(1+ abs(X) * abs(this->m_params.q),4); }
 };
 class KGBDefault : public KGB<KGBDefault>
 {
