@@ -5,7 +5,7 @@
 
 #include "ScalarField.hpp"
 #include "DerivativeOperators.hpp"
-#include "CouplingAndPotenetial.hpp"
+#include "CouplingAndPotential.hpp"
 #include "EMTensor.hpp"
 #include "FArrayBox.H"
 #include "GRParmParse.hpp"
