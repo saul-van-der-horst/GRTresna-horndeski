@@ -20,7 +20,7 @@ class CouplingAndPotential
         double usr_v0 = 0.0;
         double dbin_Lambda = 0.0;
         double rbs_Lambda = 0.0;
-        double eta = 0.0;
+        double q = 0.0;
         double f = 0.0;
         double mu = 0.0;
         double p = 0.0;
@@ -278,15 +278,15 @@ class KGBExponential_hilltop : public KGB<KGBExponential_hilltop>
 
     template <class data_t>
     ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
-    { return this->m_params.y1 * exp(this->m_params.eta * X); }
+    { return this->m_params.y1 * exp(this->m_params.q * X); }
 
     template <class data_t>
     ALWAYS_INLINE data_t dG3_dX_impl(const data_t phi, const data_t X) const
-    { return this->m_params.y1 * this->m_params.eta* exp(this->m_params.eta * X); }
+    { return this->m_params.y1 * this->m_params.q* exp(this->m_params.q * X); }
 
     template <class data_t>
     ALWAYS_INLINE data_t d2G3_dXX_impl(const data_t phi, const data_t X) const
-    { return this->m_params.y1 * pow(this->m_params.eta, 2)* exp(this->m_params.eta * X); }
+    { return this->m_params.y1 * pow(this->m_params.q, 2)* exp(this->m_params.q * X); }
 };
 class KGBDefault : public KGB<KGBDefault>
 {
