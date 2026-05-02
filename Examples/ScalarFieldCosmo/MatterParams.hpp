@@ -34,7 +34,7 @@ struct params_t
     Real exph_lambda;
     Real v;
     Real y1;
-    Real eta;
+    Real q;
     Real dbin_lambda1;
     Real dbin_Lambda;
     Real f;
@@ -104,7 +104,7 @@ inline void read_params(GRParmParse &pp, params_t &matter_params)
         pp.get("exph_lambda", m_params.exph_lambda);
         pp.get("v",      m_params.v);
         pp.get("y1",     m_params.y1);
-        pp.get("eta",   m_params.eta);
+        pp.get("q",   m_params.q);
 
         matter_params.coupling =
             makeCouplingAndPotential("kgb-exph", m_params);
