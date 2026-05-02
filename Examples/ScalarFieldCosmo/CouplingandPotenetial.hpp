@@ -31,6 +31,8 @@ class CouplingAndPotential
         double v = 0.0;
         double b = 0.0;
         double gamma = 0.0;
+        double eps = 0.0;
+        double X_star = 0.0;
     };
     params_t m_params;
 
@@ -284,15 +286,15 @@ class KGBExponential_hilltop : public KGB<KGBExponential_hilltop>
 
     template <class data_t>
     ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
-    { return this->m_params.y1 * exp(this->m_params.q * X); }
+    { return this->m_params.y1 * exp(this->m_params.q * X /(1. +abs(X)/abs(this->m_params.q))); }
 
     template <class data_t>
     ALWAYS_INLINE data_t dG3_dX_impl(const data_t phi, const data_t X) const
-    { return this->m_params.y1 * this->m_params.q* exp(this->m_params.q * X); }
+    { return this->m_params.y1 * this->m_params.q* exp(this->m_params.q * X/(1+abs(X)/abs(this->m_params.q))); }
 
     template <class data_t>
     ALWAYS_INLINE data_t d2G3_dXX_impl(const data_t phi, const data_t X) const
-    { return this->m_params.y1 * pow(this->m_params.q, 2)* exp(this->m_params.q * X); }
+    { return this->m_params.y1 * pow(this->m_params.q, 2)* exp(this->m_params.q * X/(1+abs(X)/abs(this->m_params.q))); }
 };
 class KGBDefault : public KGB<KGBDefault>
 {
@@ -345,11 +347,11 @@ class KGBDBI_natural : public KGB<KGBDBI_natural>
 
     template <class data_t>
     ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
-    { return 1. + pow(phi, 4)/(this->m_params.dbin_lambda1 / sqrt(1. - 2. * X) ); }
+    { return 1. + pow(phi, 4)/(this->m_params.dbin_lambda1 / sqrt(1. - 2. * X + this->m_params.eps *this->m_params.eps) ); }
 
     template <class data_t>
     ALWAYS_INLINE data_t d2G2_dXX_impl(const data_t phi, const data_t X) const
-    { return pow(phi, 4)/(this->m_params.dbin_lambda1 / (sqrt(1. - 2. * X) * (1. - 2. * X))); }
+    { return pow(phi, 4)/(this->m_params.dbin_lambda1 / (sqrt(1. - 2. * X + this->m_params.eps *this->m_params.eps) * (1. - 2. * X))); }
 
 };
 
