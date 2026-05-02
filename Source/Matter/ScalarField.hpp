@@ -47,31 +47,7 @@ class ScalarField
                                 const RealVect &a_dx) const;
 
     
-    Real V(Real phi, Real X) const;
-
-    Real dV_dphi(Real phi, Real X) const;
-
-    Real G2(Real phi, Real X) const;
-
-    Real dG2_dphi(Real phi, Real X) const;
-
-    Real dG2_dX(Real phi, Real X) const;
-
-    Real d2G2_dXX(Real phi, Real X) const;
-
-    Real d2G2_dXphi(Real phi, Real X) const;
-
-    Real G3(Real phi, Real X) const;
-
-    Real dG3_dphi(Real phi, Real X) const;
-
-    Real dG3_dX(Real phi, Real X) const;
-
-    Real d2G3_dXX(Real phi, Real X) const;
-
-    Real d2G3_dXphi(Real phi, Real X) const;
-
-    Real d2G3_dphiphi(Real phi, Real X) const;
+   
 
     Real my_phi_function(const RealVect &locr) const;
 
