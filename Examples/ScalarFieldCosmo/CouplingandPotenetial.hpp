@@ -218,7 +218,7 @@ class KGBUltra_slow_roll : public KGB<KGBUltra_slow_roll>
 
     template <class data_t>
     ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
-    {return 1}
+    {return 1; }
 
     template <class data_t>
     ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
@@ -247,7 +247,7 @@ class KGBRunning_braiding_starobinsky : public KGB<KGBRunning_braiding_starobins
 
     template <class data_t>
     ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
-    {return 1}
+    {return 1; }
 
     template <class data_t>
     ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
@@ -280,7 +280,7 @@ class KGBExponential_hilltop : public KGB<KGBExponential_hilltop>
 
     template <class data_t>
     ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
-    { return 1}
+    { return 1; }
 
     template <class data_t>
     ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
