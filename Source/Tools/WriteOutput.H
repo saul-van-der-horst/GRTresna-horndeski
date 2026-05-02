@@ -300,6 +300,10 @@ void set_output_data(LevelData<FArrayBox> &a_grchombo_vars,
 
     PsiAndAijFunctions psi_and_Aij_functions(
         a_params.psi_and_Aij_params);
+    matter_t matter(a_params.matter_params,
+                &psi_and_Aij_functions,
+                a_params.grid_params.center,
+                a_params.grid_params.domainLength);
 
     DataIterator dit = a_grchombo_vars.dataIterator();
     for (dit.begin(); dit.ok(); ++dit)
@@ -355,6 +359,12 @@ void set_output_data(LevelData<FArrayBox> &a_grchombo_vars,
                 multigrid_vars_box(iv, c_A23_0) * factor;
             grchombo_vars_box(iv, c_A33) =
                 multigrid_vars_box(iv, c_A33_0) * factor;
+            emtensor_t emtensor = matter.compute_emtensor(iv, a_dx, multigrid_vars_box);
+            grchombo_vars_box(iv, c_rho) = emtensor.rho;
+            grchombo_vars_box(iv, c_S1)  = emtensor.Si[0];
+            grchombo_vars_box(iv, c_S2)  = emtensor.Si[1];
+            grchombo_vars_box(iv, c_S3)  = emtensor.Si[2];
+            grchombo_vars_box(iv, c_X)   = emtensor.X;
         }
     }
 }
