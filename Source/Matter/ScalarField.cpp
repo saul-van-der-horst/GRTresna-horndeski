@@ -138,7 +138,7 @@ emtensor_t ScalarField::compute_emtensor(const IntVect a_iv,
     Real dg2_dX   = coupling.dG2_dX(phi_0, X);
     Real dg3_dX   = coupling.dG3_dX(phi_0, X);
     Real dg3_dphi = coupling.dG3_dphi(phi_0, X);
-
+    out.X = X;
     out.rho =
         dg3_dX * (tau * Pi_0 * Pi_0 -
                                    tau_ij_dot_dphi2 * chi) +
