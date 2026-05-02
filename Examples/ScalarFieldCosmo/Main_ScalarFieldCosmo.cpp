@@ -28,10 +28,10 @@ int main(int argc, char *argv[])
         cout << "Running with MPI" << endl;
 #endif
 
-    if (argc < 1)
+    if (argc < 2)
     {
         cerr << " usage " << argv[0] << " <input_file_name> " << endl;
-        exit(0);
+        exit(1);
     }
 
     // Read params input file
