@@ -209,14 +209,16 @@ class KGBUltra_slow_roll : public KGB<KGBUltra_slow_roll>
     template <class data_t>
     ALWAYS_INLINE data_t G2_impl(const data_t phi, const data_t X) const
     {
-        return -this-> m_params.usr_v0 + this-> m_params.y2 * phi;
+        return X -this-> m_params.usr_v0 + this-> m_params.y2 * phi;
     }
 
     template <class data_t>
     ALWAYS_INLINE data_t dG2_dphi_impl(const data_t phi, const data_t X) const
     { return this->m_params.y2; }
 
-   
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
+    {return 1}
 
     template <class data_t>
     ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
@@ -235,13 +237,17 @@ class KGBRunning_braiding_starobinsky : public KGB<KGBRunning_braiding_starobins
     template <class data_t>
     ALWAYS_INLINE data_t G2_impl(const data_t phi, const data_t X) const
     {
-        return -pow(this->m_params.rbs_Lambda, 4) * pow(1-exp(- this->m_params.nu * phi /this->m_params.Mpl), 2) ;
+        return X -pow(this->m_params.rbs_Lambda, 4) * pow(1-exp(- this->m_params.nu * phi /this->m_params.Mpl), 2) ;
     }
 
     template <class data_t>
     ALWAYS_INLINE data_t dG2_dphi_impl(const data_t phi, const data_t X) const
     { return -pow(this->m_params.rbs_Lambda, 4) * 2 * (this->m_params.nu / this->m_params.Mpl) * exp(- this->m_params.nu * phi /this->m_params.Mpl) *
        (1-exp(- this->m_params.nu * phi /this->m_params.Mpl)); }
+
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
+    {return 1}
 
     template <class data_t>
     ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
@@ -265,16 +271,16 @@ class KGBExponential_hilltop : public KGB<KGBExponential_hilltop>
     template <class data_t>
     ALWAYS_INLINE data_t G2_impl(const data_t phi, const data_t X) const
     {
-        return  pow((pow(phi, 2)-pow(this->m_params.v, 2)), 2) * this->m_params.exph_lambda / 4. ;
+        return  X - pow((pow(phi, 2)-pow(this->m_params.v, 2)), 2) * this->m_params.exph_lambda / 4. ;
     }
 
     template <class data_t>
     ALWAYS_INLINE data_t dG2_dphi_impl(const data_t phi, const data_t X) const
     { return this->m_params.exph_lambda * phi * (pow(phi, 2)-pow(this->m_params.v, 2)); }
 
-    
-
-    
+    template <class data_t>
+    ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
+    { return 1}
 
     template <class data_t>
     ALWAYS_INLINE data_t G3_impl(const data_t phi, const data_t X) const
@@ -330,7 +336,7 @@ class KGBDBI_natural : public KGB<KGBDBI_natural>
     template <class data_t>
     ALWAYS_INLINE data_t G2_impl(const data_t phi, const data_t X) const
     {
-        return -sqrt(1. - 2. * X) *pow(phi, 4)/this->m_params.dbin_lambda1 +pow(phi, 4)/this->m_params.dbin_lambda1 + pow(this->m_params.dbin_Lambda, 4) * (1. +cos(phi/this->m_params.f));
+        return X -sqrt(1. - 2. * X) *pow(phi, 4)/this->m_params.dbin_lambda1 +pow(phi, 4)/this->m_params.dbin_lambda1 + pow(this->m_params.dbin_Lambda, 4) * (1. +cos(phi/this->m_params.f));
     }
 
     template <class data_t>
@@ -339,7 +345,7 @@ class KGBDBI_natural : public KGB<KGBDBI_natural>
 
     template <class data_t>
     ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
-    { return pow(phi, 4)/(this->m_params.dbin_lambda1 / sqrt(1. - 2. * X) ); }
+    { return 1. + pow(phi, 4)/(this->m_params.dbin_lambda1 / sqrt(1. - 2. * X) ); }
 
     template <class data_t>
     ALWAYS_INLINE data_t d2G2_dXX_impl(const data_t phi, const data_t X) const
@@ -356,7 +362,7 @@ class KGBDBI_power_law : public KGB<KGBDBI_power_law>
     template <class data_t>
     ALWAYS_INLINE data_t G2_impl(const data_t phi, const data_t X) const
     {
-        return -sqrt(1. - 2. * X) * this->m_params.v0 * exp(2 *this->m_params.b *phi /this->m_params.Mpl) 
+        return X -sqrt(1. - 2. * X) * this->m_params.v0 * exp(2 *this->m_params.b *phi /this->m_params.Mpl) 
           /((this->m_params.gamma -1) * ((3 * (this->m_params.gamma +1)) / (4 * (pow(this->m_params.b, 2) -1)))) +this->m_params.v0 * exp(2 *this->m_params.b *phi /this->m_params.Mpl) 
           /((this->m_params.gamma -1) * ((3 * (this->m_params.gamma +1)) / (4 * (pow(this->m_params.b, 2) -1))))-exp(2 *this->m_params.b *phi /this->m_params.Mpl);
     }
@@ -369,7 +375,7 @@ class KGBDBI_power_law : public KGB<KGBDBI_power_law>
 
     template <class data_t>
     ALWAYS_INLINE data_t dG2_dX_impl(const data_t phi, const data_t X) const
-    { return this->m_params.v0 * exp(2 *this->m_params.b *phi /this->m_params.Mpl) 
+    { return 1. + this->m_params.v0 * exp(2 *this->m_params.b *phi /this->m_params.Mpl) 
           /((this->m_params.gamma -1) * ((3 * (this->m_params.gamma +1)) / (4 * (pow(this->m_params.b, 2) -1)))) / sqrt(1. - 2. * X) ; }
 
     template <class data_t>
