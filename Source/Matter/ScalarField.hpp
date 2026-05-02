@@ -5,7 +5,7 @@
 
 #ifndef SCALARFIELD_HPP_
 #define SCALARFIELD_HPP_
-#include "CouplingAndPotenetial.hpp"
+#include "CouplingAndPotential.hpp"
 #include "EMTensor.hpp"
 #include "FArrayBox.H"
 #include "GRParmParse.hpp"
