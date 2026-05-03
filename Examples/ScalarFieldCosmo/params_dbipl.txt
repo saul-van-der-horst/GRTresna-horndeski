@@ -93,7 +93,6 @@ phi_0 = 1e-1
 dphi = 1e-1
 pi_0 = 1e-1
 dpi = 1e-1
-scalar_mass = 1e-1
 model_name = kgb-dbipl
 scalar_mass = 6e-6
 g2 = 0.1
