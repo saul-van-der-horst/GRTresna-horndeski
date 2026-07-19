@@ -5,7 +5,7 @@
 
 #include "mpi.h"
 #include <iostream>
-
+#include "CouplingAndPotenetial.hpp"
 #include "CTTK.hpp"
 #include "CTTKHybrid.hpp"
 #include "GRParmParse.hpp"
