@@ -52,7 +52,7 @@ enum
     c_S1,
     c_S2,
     c_S3,
-    c_X
+    c_X,
     NUM_GRCHOMBO_VARS
 };
 
