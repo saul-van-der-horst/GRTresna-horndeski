@@ -132,12 +132,11 @@ emtensor_t ScalarField::compute_emtensor(const IntVect a_iv,
         tau_ij_dot_dphi2 +=
             chi * delta(i,j) * d1_phi[i] * tau_ij_dot_dphi[j];
     }
-    const ICouplingAndPotential &coupling = *m_matter_params.coupling;
-    Real V        = coupling.V(phi_0, X);
-    Real g2       = coupling.G2(phi_0, X);
-    Real dg2_dX   = coupling.dG2_dX(phi_0, X);
-    Real dg3_dX   = coupling.dG3_dX(phi_0, X);
-    Real dg3_dphi = coupling.dG3_dphi(phi_0, X);
+    Real V        = m_matter_params.coupling.V(phi_0, X);
+    Real g2       = m_matter_params.coupling.G2(phi_0, X);
+    Real dg2_dX   = m_matter_params.coupling.dG2_dX(phi_0, X);
+    Real dg3_dX   = m_matter_params.coupling.dG3_dX(phi_0, X);
+    Real dg3_dphi = m_matter_params.coupling.dG3_dphi(phi_0, X);
     out.X = X;
     out.rho =
         dg3_dX * (tau * Pi_0 * Pi_0 -
