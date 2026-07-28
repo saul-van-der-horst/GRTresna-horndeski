@@ -19,7 +19,7 @@ class CouplingAndPotential
     template <class data_t>
     ALWAYS_INLINE data_t V(const data_t phi, const data_t X) const
     {
-        return 0.5 * pow(m_params.scalar_mass * phi, 2.);
+        return 0.5 * m_params.scalar_mass * phi * m_params.scalar_mass * phi;
     } // V
     template <class data_t>
     ALWAYS_INLINE data_t G2(const data_t phi, const data_t X) const
