@@ -32,7 +32,9 @@ src_dirs := ../../Source \
             ../../Source/Variables \
             ../../Source/TaggingCriteria \
 	          ../../Source/Operator \
-            ../../Source/Operator/SolverOperator 
+            ../../Source/Operator/SolverOperator \
+		    $(GRCHOMBO_SOURCE)/utils \
+            $(GRCHOMBO_SOURCE)/simd
 
 # shared code for building example programs
 include $(CHOMBO_HOME)/mk/Make.example
