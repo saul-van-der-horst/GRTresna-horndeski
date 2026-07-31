@@ -1,8 +1,7 @@
-#include "AlwaysInline.hpp"
-#include <cmath>
 #ifndef COUPLINGANDPOTENTIAL_HPP_
 #define COUPLINGANDPOTENTIAL_HPP_
-
+#include "AlwaysInline.hpp"
+#include <cmath>
 class CouplingAndPotential
 {
   public:
@@ -86,6 +85,7 @@ class CouplingAndPotential
 
     //! The constructor
     CouplingAndPotential(params_t a_params) : m_params(a_params) {}
+    CouplingAndPotential() : m_params({0.0, 0.0, 0.0}) {}
 };
 
 #endif /* COUPLINGANDPOTENTIAL_HPP_ */
