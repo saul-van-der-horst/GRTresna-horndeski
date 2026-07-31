@@ -95,7 +95,7 @@ emtensor_t ScalarField::compute_emtensor(const IntVect a_iv,
     Tensor<2, Real, SpaceDim> tau_ij;
     FOR2(i, j)
     {tau_ij[i][j] =
-             A_ij[i][j] * Pi_0 +K_0 * Pi_0 * delta(i,j) / 3. +
+             A_ij[i][j] * Pi_0 +K_0 * Pi_0 * TensorAlgebra::delta(i,j) / 3. +
             0.5 * (-delta(i,j) * dphi_dot_dchi + d1_phi[i] * d1_chi[j] +
                    d1_phi[j] * d1_chi[i] +
                    chi * (covd2phi[i][j] + covd2phi[j][i]));
@@ -117,20 +117,20 @@ emtensor_t ScalarField::compute_emtensor(const IntVect a_iv,
     FOR2(i, j)
     {
         tau_i_dot_dphi +=
-            chi * delta(i,j) * d1_phi[i] * tau_i[j];
+            chi * TensorAlgebra::delta(i,j) * d1_phi[i] * tau_i[j];
     }
     Tensor<1, Real, SpaceDim> tau_ij_dot_dphi;
     FOR1(i){tau_ij_dot_dphi[i] = 0.;}
     FOR3(i,j,k)
     {
       tau_ij_dot_dphi[i]+=
-        chi * delta(j,k) * d1_phi[k] * tau_ij[i][j];
+        chi * TensorAlgebra::delta(j,k) * d1_phi[k] * tau_ij[i][j];
     }
     Real tau_ij_dot_dphi2 = 0.;
     FOR2(i, j)
     {
         tau_ij_dot_dphi2 +=
-            chi * delta(i,j) * d1_phi[i] * tau_ij_dot_dphi[j];
+            chi * TensorAlgebra::delta(i,j) * d1_phi[i] * tau_ij_dot_dphi[j];
     }
     Real V        = m_matter_params.coupling.V(phi_0, X);
     Real g2       = m_matter_params.coupling.G2(phi_0, X);
