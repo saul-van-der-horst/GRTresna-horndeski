@@ -8,6 +8,7 @@
 
 #include "GRParmParse.hpp"
 #include "REAL.H"
+#include "CouplingAndPotential.hpp"
 
 namespace MatterParams
 {
@@ -18,9 +19,7 @@ struct params_t
     Real dphi;
     Real pi_0;
     Real dpi;
-    Real scalar_mass;
-    Real g2;
-    Real g3;
+    CouplingAndPotential coupling;
 };
 
 inline void read_params(GRParmParse &pp, params_t &matter_params)
@@ -29,9 +28,11 @@ inline void read_params(GRParmParse &pp, params_t &matter_params)
     pp.get("dphi", matter_params.dphi);
     pp.get("pi_0", matter_params.pi_0);
     pp.get("dpi", matter_params.dpi);
-    pp.get("scalar_mass", matter_params.scalar_mass);
-    pp.get("g2", matter_params.g2);
-    pp.get("g3", matter_params.g3);
+    CouplingAndPotential::params_t coupling_params;
+    pp.get("scalar_mass", coupling_params.scalar_mass);
+    pp.get("g2", coupling_params.g2);
+    pp.get("g3", coupling_params.g3);
+    matter_params.coupling = CouplingAndPotential(coupling_params);
 }
 
 }; // namespace MatterParams
