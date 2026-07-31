@@ -1,4 +1,5 @@
-
+#include "AlwaysInline.hpp"
+#include <cmath>
 #ifndef COUPLINGANDPOTENTIAL_HPP_
 #define COUPLINGANDPOTENTIAL_HPP_
 
