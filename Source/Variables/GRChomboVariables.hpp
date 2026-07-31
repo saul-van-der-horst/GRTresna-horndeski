@@ -48,10 +48,7 @@ enum
 
     c_phi, // matter field added
     c_Pi,  //(minus) conjugate momentum
-    c_rho,
-    c_S1,
-    c_S2,
-    c_S3,
+   
     c_X,
     NUM_GRCHOMBO_VARS
 };
@@ -79,17 +76,13 @@ static constexpr char const *variable_names[NUM_GRCHOMBO_VARS] = {
 
     "phi",    "Pi"
     
-    "rho",
-
-    "S1",    "S2",    "S3",
-    
     "X"};
 
 static constexpr std::array<int, NUM_GRCHOMBO_VARS> const vars_parity = {
     EVEN,   EVEN,   ODD_XY, ODD_XZ, EVEN,  ODD_YZ, EVEN,  EVEN,  EVEN,
     ODD_XY, ODD_XZ, EVEN,   ODD_YZ, EVEN,  EVEN,   ODD_X, ODD_Y, ODD_Z,
     EVEN,   ODD_X,  ODD_Y,  ODD_Z,  ODD_X, ODD_Y,  ODD_Z, EVEN,  EVEN,
-    EVEN,   ODD_X,  ODD_Y,  ODD_Z,  EVEN};
+    EVEN};
 
 } // namespace GRChomboVariables
 
