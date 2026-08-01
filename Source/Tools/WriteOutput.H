@@ -5,7 +5,7 @@
 
 #ifndef _WRITEOUTPUT_H_
 #define _WRITEOUTPUT_H_
-#inlcude "EMTensor.hpp"
+#include "EMTensor.hpp"
 #include "AMRIO.H"
 #include "BRMeshRefine.H"
 #include "BiCGStabSolver.H"
