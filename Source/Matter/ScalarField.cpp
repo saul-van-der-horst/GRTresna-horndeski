@@ -96,7 +96,7 @@ emtensor_t ScalarField::compute_emtensor(const IntVect a_iv,
     FOR2(i, j)
     {tau_ij[i][j] =
              A_ij[i][j] * Pi_0 +K_0 * Pi_0 * TensorAlgebra::delta(i,j) / 3. +
-            0.5 * (-delta(i,j) * dphi_dot_dchi + d1_phi[i] * d1_chi[j] +
+            0.5 * (-TensorAlgebra::delta(i,j) * dphi_dot_dchi + d1_phi[i] * d1_chi[j] +
                    d1_phi[j] * d1_chi[i] +
                    chi * (covd2phi[i][j] + covd2phi[j][i]));
     }
